@@ -102,10 +102,10 @@ class ApiFactory
         $api->setName($apiName);
 
         $serviceConfigs = [];
-        if ($this->config['zf-rest']) {
+        if (isset($this->config['zf-rest']) && !empty($this->config['zf-rest'])) {
             $serviceConfigs = array_merge($serviceConfigs, $this->config['zf-rest']);
         }
-        if ($this->config['zf-rpc']) {
+        if (isset($this->config['zf-rpc']) && !empty($this->config['zf-rpc'])) {
             $serviceConfigs = array_merge($serviceConfigs, $this->config['zf-rpc']);
         }
 
@@ -182,6 +182,9 @@ class ApiFactory
             return false;
         }
 
+        // added service Collection Query String Whitelist
+        $service->setQueryWhitelist ($serviceData["collection_query_whitelist"]);
+
         $authorizations = $this->getAuthorizations($serviceClassName);
 
         $docsArray = $this->getDocumentationConfig($api->getName());
@@ -232,6 +235,12 @@ class ApiFactory
                     ? $docsArray[$serviceClassName]['collection'][$httpMethod]['request']
                     : '';
                 $op->setRequestDescription($requestDescription);
+
+                // added support swagger summary option for collection's method
+                $requestSummary = isset($docsArray[$serviceClassName]['collection'][$httpMethod]['summary'])
+                    ? $docsArray[$serviceClassName]['collection'][$httpMethod]['summary']
+                    : '';
+                $op->setSummary($requestSummary)  ;
 
                 $responseDescription = isset($docsArray[$serviceClassName]['collection'][$httpMethod]['response'])
                     ? $docsArray[$serviceClassName]['collection'][$httpMethod]['response']
@@ -302,6 +311,12 @@ class ApiFactory
                     ? $docsArray[$serviceClassName]['entity'][$httpMethod]['request']
                     : '';
                 $op->setRequestDescription($requestDescription);
+
+                // add supprt swagger summary option for entity's methods
+                $requestSummary = isset($docsArray[$serviceClassName]['entity'][$httpMethod]['summary'])
+                    ? $docsArray[$serviceClassName]['entity'][$httpMethod]['summary']
+                    : '';
+                $op->setSummary($requestSummary)  ;
 
                 $responseDescription = isset($docsArray[$serviceClassName]['entity'][$httpMethod]['response'])
                     ? $docsArray[$serviceClassName]['entity'][$httpMethod]['response']

@@ -67,6 +67,11 @@ class Service implements IteratorAggregate
     protected $fields = [];
 
     /**
+     * @var array
+     */
+    protected $queryWhitelist = [];
+
+    /**
      * @param \ZF\Apigility\Documentation\Api $api
      */
     public function setApi($api)
@@ -240,6 +245,24 @@ class Service implements IteratorAggregate
     public function getFields($type)
     {
         return isset($this->fields[$type]) ? $this->fields[$type] : [];
+    }
+
+    /**
+     * @param $queryWhitelist
+     * @return array
+     */
+    public function setQueryWhitelist($queryWhitelist)
+    {
+        return $this->queryWhitelist = $queryWhitelist;
+    }
+
+    /**
+     *
+     * @return array
+     */
+    public function getQueryWhitelist()
+    {
+        return isset($this->queryWhitelist) ? $this->queryWhitelist : [];
     }
 
     /**

@@ -46,6 +46,13 @@ class Operation implements IteratorAggregate
     protected $responseStatusCodes = [];
 
     /**
+     * Possible summary support for swagger
+     *
+     * @var string
+     */
+    protected $summary;
+
+    /**
      * @param string $httpMethod
      */
     public function setHttpMethod($httpMethod)
@@ -139,6 +146,22 @@ class Operation implements IteratorAggregate
     public function getResponseStatusCodes()
     {
         return $this->responseStatusCodes;
+    }
+
+    /**
+     * @param string $summary
+     */
+    public function setSummary($summary)
+    {
+        $this->summary = $summary;
+    }
+
+    /**
+     * @return array
+     */
+    public function getSummary()
+    {
+        return $this->summary;
     }
 
     /**
